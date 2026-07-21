@@ -1,3 +1,6 @@
 import os
 
 TOPIC = os.getenv("NTFY_TOPIC")
+
+CALLMEBOT_PHONE = os.getenv("CALLMEBOT_PHONE")
+CALLMEBOT_APIKEY = os.getenv("CALLMEBOT_APIKEY")

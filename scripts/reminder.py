@@ -14,7 +14,7 @@ import requests
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(ROOT_DIR))
 
-from config import TOPIC
+from config import TOPIC, CALLMEBOT_PHONE, CALLMEBOT_APIKEY
 
 CSV_PATH = ROOT_DIR / "data" / "menu.csv"
 
@@ -212,5 +212,23 @@ response = requests.post(
 )
 
 print(f"\nNotification Status: {response.status_code}")
+
+# -------------------------------------------------
+# WhatsApp notification (CallMeBot)
+# -------------------------------------------------
+
+if CALLMEBOT_PHONE and CALLMEBOT_APIKEY:
+    whatsapp_response = requests.get(
+        "https://api.callmebot.com/whatsapp.php",
+        params={
+            "phone": CALLMEBOT_PHONE,
+            "text": message,
+            "apikey": CALLMEBOT_APIKEY
+        }
+    )
+    print(f"WhatsApp Status: {whatsapp_response.status_code}")
+else:
+    print("CALLMEBOT_PHONE / CALLMEBOT_APIKEY not set, skipping WhatsApp notification.")
+
 print(f"Current IST time: {now}")
 print(f"Meal: {meal}")

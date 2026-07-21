@@ -30,5 +30,7 @@ jobs:
       - name: Send Notification
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          CALLMEBOT_PHONE: ${{ secrets.CALLMEBOT_PHONE }}
+          CALLMEBOT_APIKEY: ${{ secrets.CALLMEBOT_APIKEY }}
           MEAL: Breakfast
         run: python scripts/reminder.py
