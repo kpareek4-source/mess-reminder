@@ -16,14 +16,7 @@ from config import TOPIC
 
 CSV_PATH = ROOT_DIR / "data" / "menu.csv"
 
-# -------------------------------------------------
-# TEST MODE
-# -------------------------------------------------
-
 TEST_MODE = False
-
-TEST_DAY = "Friday"
-TEST_MEAL = "Lunch"
 
 # -------------------------------------------------
 # Reminder schedule
