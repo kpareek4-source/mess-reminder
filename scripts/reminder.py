@@ -2,6 +2,7 @@ import os
 import sys
 from pathlib import Path
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 import requests
@@ -62,12 +63,15 @@ priorities = {
 # Decide today's meal
 # -------------------------------------------------
 
-if TEST_MODE:
-    today = TEST_DAY
-    meal = TEST_MEAL
+now = datetime.now(ZoneInfo("Asia/Kolkata"))
+today = now.strftime("%A")
+
+MANUAL_RUN = os.getenv("MANUAL_RUN", "false").lower() == "true"
+
+if MANUAL_RUN:
+    # For manual testing, always send today's lunch
+    meal = "Lunch"
 else:
-    now = datetime.now()
-    today = now.strftime("%A")
     current_time = (now.hour, now.minute)
 
     if current_time not in meal_schedule:

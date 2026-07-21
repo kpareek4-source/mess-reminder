@@ -33,5 +33,4 @@ jobs:
       - name: Send Notification
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-          MANUAL_RUN: "true"
         run: python scripts/reminder.py
