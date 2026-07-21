@@ -4,16 +4,9 @@ on:
   workflow_dispatch:
 
   schedule:
-    # 7:15 AM IST (Breakfast Reminder)
     - cron: "45 1 * * *"
-
-    # 12:30 PM IST (Lunch Reminder)
     - cron: "00 7 * * *"
-
-    # 4:45 PM IST (Snacks Reminder)
     - cron: "15 11 * * *"
-
-    # 7:30 PM IST (Dinner Reminder)
     - cron: "00 14 * * *"
 
 jobs:
@@ -35,4 +28,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: Send Notification
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: python scripts/reminder.py
