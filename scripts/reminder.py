@@ -212,3 +212,5 @@ response = requests.post(
 )
 
 print(f"\nNotification Status: {response.status_code}")
+print(f"Current IST time: {now}")
+print(f"Meal: {meal}")
