@@ -18,7 +18,6 @@ from config import TOPIC
 
 CSV_PATH = ROOT_DIR / "data" / "menu.csv"
 
-TEST_MODE = False
 
 # -------------------------------------------------
 # Reminder schedule
