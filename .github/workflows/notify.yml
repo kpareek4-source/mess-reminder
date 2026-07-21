@@ -1,0 +1,38 @@
+name: Mess Reminder
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    # 7:15 AM IST (Breakfast Reminder)
+    - cron: "45 1 * * *"
+
+    # 12:30 PM IST (Lunch Reminder)
+    - cron: "00 7 * * *"
+
+    # 4:45 PM IST (Snacks Reminder)
+    - cron: "15 11 * * *"
+
+    # 7:30 PM IST (Dinner Reminder)
+    - cron: "00 14 * * *"
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Send Notification
+        run: python scripts/reminder.py
