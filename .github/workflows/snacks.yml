@@ -1,13 +1,10 @@
-name: Mess Reminder
+name: Snacks Reminder
 
 on:
   workflow_dispatch:
 
   schedule:
-    - cron: "45 1 * * *"
-    - cron: "00 7 * * *"
     - cron: "15 11 * * *"
-    - cron: "00 14 * * *"
 
 jobs:
   notify:
@@ -33,4 +30,5 @@ jobs:
       - name: Send Notification
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          MEAL: Snacks
         run: python scripts/reminder.py

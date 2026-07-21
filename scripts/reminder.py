@@ -24,13 +24,6 @@ TEST_MODE = False
 # Reminder schedule
 # -------------------------------------------------
 
-meal_schedule = {
-    (7, 15): "Breakfast",
-    (12, 30): "Lunch",
-    (16, 45): "Snacks",
-    (19, 30): "Dinner"
-}
-
 serving_times = {
     "Breakfast": "7:45 AM - 10:15 AM",
     "Lunch": "1:00 PM - 3:00 PM",
@@ -64,6 +57,8 @@ priorities = {
 # -------------------------------------------------
 
 now = datetime.now(ZoneInfo("Asia/Kolkata"))
+print(f"Current IST time: {now}")
+print(f"Time tuple: {(now.hour, now.minute)}")
 today = now.strftime("%A")
 
 MANUAL_RUN = os.getenv("MANUAL_RUN", "false").lower() == "true"
@@ -72,13 +67,7 @@ if MANUAL_RUN:
     # For manual testing, always send today's lunch
     meal = "Lunch"
 else:
-    current_time = (now.hour, now.minute)
-
-    if current_time not in meal_schedule:
-        print("Not a reminder time.")
-        exit()
-
-    meal = meal_schedule[current_time]
+    meal = os.getenv("MEAL")
 
 current_date = datetime.now().strftime("%d %B")
 
