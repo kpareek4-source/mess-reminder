@@ -57,8 +57,6 @@ priorities = {
 # -------------------------------------------------
 
 now = datetime.now(ZoneInfo("Asia/Kolkata"))
-print(f"Current IST time: {now}")
-print(f"Time tuple: {(now.hour, now.minute)}")
 today = now.strftime("%A")
 
 MANUAL_RUN = os.getenv("MANUAL_RUN", "false").lower() == "true"
@@ -68,8 +66,11 @@ if MANUAL_RUN:
     meal = "Lunch"
 else:
     meal = os.getenv("MEAL")
+    if not meal:
+        print("MEAL environment variable not set.")
+        exit()
 
-current_date = datetime.now().strftime("%d %B")
+current_date = now.strftime("%d %B")
 
 # -------------------------------------------------
 # Read menu
