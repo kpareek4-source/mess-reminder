@@ -7,20 +7,27 @@ Sends mess meal reminders (Breakfast, Lunch, Snacks, Dinner) on a schedule via G
 Notifications are sent to:
 
 - **ntfy.sh** — set the `NTFY_TOPIC` repo secret to your ntfy topic.
-- **WhatsApp** (via [Twilio](https://www.twilio.com/whatsapp)) — optional, skipped automatically if not configured.
+- **WhatsApp** (via [CallMeBot](https://www.callmebot.com/blog/free-api-whatsapp-messages/)) — sent to every subscriber in the `WHATSAPP_SUBSCRIBERS` secret. Skipped automatically if that secret is empty/unset.
 
-### WhatsApp setup (Twilio)
+### WhatsApp setup (CallMeBot)
 
-1. Create a free [Twilio](https://www.twilio.com/try-twilio) account.
-2. In the Twilio Console, open **Messaging → Try it out → Send a WhatsApp message** to reach the WhatsApp sandbox. Note the sandbox number and the `join <your-code>` phrase shown there.
-3. From the WhatsApp account you want reminders sent to, send that `join <your-code>` message to the sandbox number.
-4. Copy your **Account SID** and **Auth Token** from the Console dashboard.
-5. Add four repo secrets (Settings → Secrets and variables → Actions):
-   - `TWILIO_ACCOUNT_SID`
-   - `TWILIO_AUTH_TOKEN`
-   - `TWILIO_WHATSAPP_FROM` — the sandbox number in international format, no `whatsapp:` prefix (e.g. `14155238886`).
-   - `TWILIO_WHATSAPP_TO` — your WhatsApp number in international format (e.g. `919876543210`).
+Each person who wants reminders does a **one-time activation**, then you add them to a shared list:
 
-If any of these secrets are missing, the workflows still run and simply skip the WhatsApp step.
+1. They save `+34 644 71 81 99` as a contact on their phone.
+2. They send it the WhatsApp message: `I allow callmebot to send me messages`.
+3. Within a couple of minutes, CallMeBot replies with their personal API key. (If nothing arrives, they can try again after 24 hours — the free bot is occasionally overloaded.)
+4. They send you their phone number and that API key (however you'd like — WhatsApp, etc).
+5. You add/update the `WHATSAPP_SUBSCRIBERS` repo secret (Settings → Secrets and variables → Actions) as a JSON array with one entry per person:
 
-The free sandbox session expires after a few days of inactivity — if messages stop arriving, resend the `join <your-code>` message to reactivate it.
+   ```json
+   [
+     {"phone": "919876543210", "apikey": "1234567"},
+     {"phone": "34600111222", "apikey": "7654321"}
+   ]
+   ```
+
+   `phone` is the international format with no `+`, spaces, or leading zeros.
+
+To add or remove someone, edit that secret's JSON and save — no code changes needed.
+
+Phone numbers and API keys live only in this GitHub secret, never in the repo itself, since this repo is public.

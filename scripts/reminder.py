@@ -14,13 +14,7 @@ import requests
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(ROOT_DIR))
 
-from config import (
-    TOPIC,
-    TWILIO_ACCOUNT_SID,
-    TWILIO_AUTH_TOKEN,
-    TWILIO_WHATSAPP_FROM,
-    TWILIO_WHATSAPP_TO
-)
+from config import TOPIC, WHATSAPP_SUBSCRIBERS
 
 CSV_PATH = ROOT_DIR / "data" / "menu.csv"
 
@@ -220,22 +214,22 @@ response = requests.post(
 print(f"\nNotification Status: {response.status_code}")
 
 # -------------------------------------------------
-# WhatsApp notification (Twilio)
+# WhatsApp notification (CallMeBot)
 # -------------------------------------------------
 
-if TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN and TWILIO_WHATSAPP_FROM and TWILIO_WHATSAPP_TO:
-    whatsapp_response = requests.post(
-        f"https://api.twilio.com/2010-04-01/Accounts/{TWILIO_ACCOUNT_SID}/Messages.json",
-        auth=(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN),
-        data={
-            "From": f"whatsapp:{TWILIO_WHATSAPP_FROM}",
-            "To": f"whatsapp:{TWILIO_WHATSAPP_TO}",
-            "Body": message
-        }
-    )
-    print(f"WhatsApp Status: {whatsapp_response.status_code}")
+if WHATSAPP_SUBSCRIBERS:
+    for subscriber in WHATSAPP_SUBSCRIBERS:
+        whatsapp_response = requests.get(
+            "https://api.callmebot.com/whatsapp.php",
+            params={
+                "phone": subscriber["phone"],
+                "text": message,
+                "apikey": subscriber["apikey"]
+            }
+        )
+        print(f"WhatsApp Status ({subscriber['phone']}): {whatsapp_response.status_code}")
 else:
-    print("Twilio WhatsApp env vars not set, skipping WhatsApp notification.")
+    print("No WhatsApp subscribers configured, skipping WhatsApp notification.")
 
 print(f"Current IST time: {now}")
 print(f"Meal: {meal}")
