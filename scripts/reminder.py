@@ -20,7 +20,7 @@ CSV_PATH = ROOT_DIR / "data" / "menu.csv"
 # TEST MODE
 # -------------------------------------------------
 
-TEST_MODE = True
+TEST_MODE = False
 
 TEST_DAY = "Friday"
 TEST_MEAL = "Lunch"
