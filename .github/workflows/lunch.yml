@@ -3,9 +3,6 @@ name: Lunch Reminder
 on:
   workflow_dispatch:
 
-  schedule:
-    - cron: "00 7 * * *"
-
 jobs:
   notify:
     runs-on: ubuntu-latest

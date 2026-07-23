@@ -3,9 +3,6 @@ name: Snacks Reminder
 on:
   workflow_dispatch:
 
-  schedule:
-    - cron: "15 11 * * *"
-
 jobs:
   notify:
     runs-on: ubuntu-latest

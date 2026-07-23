@@ -3,9 +3,6 @@ name: Breakfast Reminder
 on:
   workflow_dispatch:
 
-  schedule:
-    - cron: "45 1 * * *"
-
 jobs:
   notify:
     runs-on: ubuntu-latest
