@@ -1,17 +1,20 @@
 import pdfplumber
 import pandas as pd
 
+# Produces a draft only: pdfplumber can merge words (e.g. "KadhaiPaneer")
+# and split wrapped dishes, so review data/menu.csv before committing.
+
 PDF_PATH = "data/menu.pdf"
 CSV_PATH = "data/menu.csv"
 
 days = {
-    "YADNOM": "Monday",
-    "YADSEUT": "Tuesday",
-    "YADSENDEW": "Wednesday",
-    "YADSRUHT": "Thursday",
-    "YADIRF": "Friday",
-    "YADRUTAS": "Saturday",
-    "YADNUS": "Sunday"
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday",
+    "SUNDAY": "Sunday"
 }
 
 rows = []
@@ -24,10 +27,10 @@ with pdfplumber.open(PDF_PATH) as pdf:
             for row in table:
 
                 # Skip empty or incomplete rows
-                if not row or len(row) < 7:
+                if not row or len(row) < 5:
                     continue
 
-                day = (row[1] or "").strip()
+                day = (row[0] or "").strip().upper()
 
                 # Skip header/footer rows
                 if day not in days:
@@ -36,10 +39,10 @@ with pdfplumber.open(PDF_PATH) as pdf:
                 day = days[day]
 
                 meals = [
-                    ("Breakfast", (row[3] or "").strip()),
-                    ("Lunch", (row[4] or "").strip()),
-                    ("Snacks", (row[5] or "").strip()),
-                    ("Dinner", (row[6] or "").strip()),
+                    ("Breakfast", (row[1] or "").strip()),
+                    ("Lunch", (row[2] or "").strip()),
+                    ("Snacks", (row[3] or "").strip()),
+                    ("Dinner", (row[4] or "").strip()),
                 ]
 
                 for meal, items in meals:

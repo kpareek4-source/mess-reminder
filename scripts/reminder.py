@@ -14,7 +14,7 @@ import requests
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(ROOT_DIR))
 
-from config import TOPIC, WHATSAPP_SUBSCRIBERS
+from config import TOPIC
 
 CSV_PATH = ROOT_DIR / "data" / "menu.csv"
 
@@ -24,8 +24,8 @@ CSV_PATH = ROOT_DIR / "data" / "menu.csv"
 # -------------------------------------------------
 
 serving_times = {
-    "Breakfast": "7:45 AM - 10:15 AM",
-    "Lunch": "1:00 PM - 3:00 PM",
+    "Breakfast": "7:50 AM - 10:15 AM",
+    "Lunch": "12:45 PM - 2:45 PM",
     "Snacks": "5:15 PM - 6:45 PM",
     "Dinner": "8:00 PM - 10:15 PM"
 }
@@ -212,24 +212,5 @@ response = requests.post(
 )
 
 print(f"\nNotification Status: {response.status_code}")
-
-# -------------------------------------------------
-# WhatsApp notification (CallMeBot)
-# -------------------------------------------------
-
-if WHATSAPP_SUBSCRIBERS:
-    for subscriber in WHATSAPP_SUBSCRIBERS:
-        whatsapp_response = requests.get(
-            "https://api.callmebot.com/whatsapp.php",
-            params={
-                "phone": subscriber["phone"],
-                "text": message,
-                "apikey": subscriber["apikey"]
-            }
-        )
-        print(f"WhatsApp Status ({subscriber['phone']}): {whatsapp_response.status_code}")
-else:
-    print("No WhatsApp subscribers configured, skipping WhatsApp notification.")
-
 print(f"Current IST time: {now}")
 print(f"Meal: {meal}")

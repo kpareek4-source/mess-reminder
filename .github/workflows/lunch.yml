@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: "00 7 * * *"
+    - cron: "45 6 * * *"
 
 jobs:
   notify:
@@ -24,12 +24,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Generate menu.csv
-        run: python scripts/convert_menu.py
-
       - name: Send Notification
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-          WHATSAPP_SUBSCRIBERS: ${{ secrets.WHATSAPP_SUBSCRIBERS }}
           MEAL: Lunch
         run: python scripts/reminder.py
